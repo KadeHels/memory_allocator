@@ -5,7 +5,7 @@
 /* change me to 1 for more debugging information
  * change me to 0 for time testing and to clear your mind
  */
-#define DEBUG 0 
+#define DEBUG 0
 
 void *__heap = NULL;
 node_t *__head = NULL;
@@ -17,19 +17,19 @@ inline header_t *get_header(void *ptr)
 
 inline void print_header(header_t *header)
 {
-	printf("[header_t @ %p | buffer @ %p size: %lu magic: %08lx]\n", 
-		   header, 
+	printf("[header_t @ %p | buffer @ %p size: %lu magic: %08lx]\n",
+		   header,
 		   ((void *)header + sizeof(header_t)),
-		   header->size, 
+		   header->size,
 		   header->magic);
 }
 
 inline void print_node(node_t *node)
 {
-	printf("[node @ %p | free region @ %p size: %lu next: %p]\n", 
-		   node, 
-		   ((void *)node + sizeof(node_t)), 
-		   node->size, 
+	printf("[node @ %p | free region @ %p size: %lu next: %p]\n",
+		   node,
+		   ((void *)node + sizeof(node_t)),
+		   node->size,
 		   node->next);
 }
 
@@ -57,7 +57,7 @@ inline void coalesce_freelist(node_t *listhead)
 	 * --> it might be easier if you sort the free list first!
 	 * --> it might require multiple passes over the free list!
 	 * --> it might be easier if you call some helper functions from here
-	 * --> see print_free_list_from for basic code for traversing a 
+	 * --> see print_free_list_from for basic code for traversing a
 	 *     linked list!
 	 */
 }
@@ -99,7 +99,7 @@ void *first_fit(size_t req_size)
 {
 	void *ptr = NULL; /* pointer to the match that we'll return */
 
-	if (DEBUG) printf("In first_fit with size: %u and freelist @ %p\n", 
+	if (DEBUG) printf("In first_fit with size: %u and freelist @ %p\n",
 					  (unsigned)req_size, __head);
 
 	node_t *listitem = __head; /* cursor into our linked list */
@@ -108,9 +108,9 @@ void *first_fit(size_t req_size)
 
 	/* traverse the free list from __head! when you encounter a region that
 	 * is large enough to hold the buffer and required header, use it!
-	 * If the region is larger than you need, split the buffer into two 
+	 * If the region is larger than you need, split the buffer into two
 	 * regions: first, the region that you allocate and second, a new (smaller)
-	 * free region that goes on the free list in the same spot as the old free 
+	 * free region that goes on the free list in the same spot as the old free
 	 * list node_t.
 	 *
 	 * If you traverse the whole list and can't find space, return a null
@@ -118,10 +118,10 @@ void *first_fit(size_t req_size)
 	 *
 	 * Hints:
 	 * --> see print_freelist_from to see how to traverse a linked list
-	 * --> remember to keep track of the previous free region (prev) so 
+	 * --> remember to keep track of the previous free region (prev) so
 	 *     that, when you divide a free region, you can splice the linked
 	 *     list together (you'll either use an entire free region, so you
-	 *     point prev to what used to be next, or you'll create a new 
+	 *     point prev to what used to be next, or you'll create a new
 	 *     (smaller) free region, which should have the same prev and the next
 	 *     of the old region.
 	 * --> If you divide a region, remember to update prev's next pointer!
@@ -185,7 +185,7 @@ void myfree(void *ptr)
 
 	/* free the buffer pointed to by ptr!
 	 * To do this, save the location of the old head (hint, it's __head).
-	 * Then, change the allocation header_t to a node_t. Point __head 
+	 * Then, change the allocation header_t to a node_t. Point __head
 	 * at the new node_t and update the new head's next to point to the
 	 * old head. Voila! You've just turned an allocated buffer into a
 	 * free region!
