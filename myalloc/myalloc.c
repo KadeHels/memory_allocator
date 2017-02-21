@@ -54,7 +54,19 @@ inline void coalesce_freelist(node_t *listhead)
 	node_t *prev = target;
 
 
-	//while (node != NULL) {
+	for (node_t *target = __head; target != NULL;) {
+           int *neighbor = (int*)target + sizeof(header_t) +
+           target->size;
+           if (neighbor == (int*)target->next) {
+              node_t *node_next = target->next->next;
+              target->size += sizeof(header_t) + target->next->size;
+              target->next = node_next;
+              //And now retry it since target can be coalesced with it's neighbor
+              continue;
+           } else {
+              target = target->next;
+           }
+        }
            /* traverse the free list, coalescing neighboring regions!
 	 * some hints:
 	 * --> it might be easier if you sort the free list first!
@@ -136,14 +148,14 @@ void *first_fit(size_t req_size)
 
            while (listitem != NULL) {
               if (listitem->size >= sizeToAllocate) {
-                 ptr = listitem;
                  prev = listitem->next;
-                 alloc->size = req_size;
-                 alloc->magic = HEAPMAGIC;
+                 alloc->size = req_size + sizeof(header_t);
                  node_t *newAlloc;
+                 alloc->magic = HEAPMAGIC;
                  newAlloc->size = req_size;
                  newAlloc->next = prev;
-                 listitem->next = newAlloc;
+                 listitem->next = alloc;
+                 ptr  = __head->size + sizeof(header_t) + req_size;
                  return ptr;
               } else {
                  prev = listitem;
@@ -196,7 +208,6 @@ void *myalloc(size_t size)
  */
 void myfree(void *ptr)
 {
-
 	if (DEBUG) printf("\nIn myfree with pointer %p\n", ptr);
 
 	header_t *header = get_header(ptr); /* get the start of a header from a pointer */
@@ -210,10 +221,6 @@ void myfree(void *ptr)
 		printf("The heap is corrupt!\n");
 		return;
 	}
-
-        //header_t *oldHead = __head;
-        //node_t *newHead = (node_t) header;
-        //header->next = oldHead;
         
 	/* free the buffer pointed to by ptr!
 	 * To do this, save the location of the old head (hint, it's __head).
@@ -226,15 +233,15 @@ void myfree(void *ptr)
 	/* save the current __head of the freelist */
 	/* ??? */
         node_t *oldhead = __head;
-        node_t *newHead;
-        newHead->size = header->size;
-        newHead->next = oldhead->next;
+        //node_t *deallocated;
+        //deallocated->size = header->size + sizeof(header_t);
+        
 	/* now set the __head to point to the header_t for the buffer being freed */
 	/* ??? */
-        __head->next = newHead;
+        __head = (node_t*) header;
 	/* set the new head's next to point to the old head that you saved */
 	/* ??? */
-        newHead->next = oldhead;
+        __head->next = oldhead;
 	/* PROFIT!!! */
 
 }
