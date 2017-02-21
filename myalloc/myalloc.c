@@ -5,10 +5,11 @@
 /* change me to 1 for more debugging information
  * change me to 0 for time testing and to clear your mind
  */
-#define DEBUG 0
+#define DEBUG 1
 
 void *__heap = NULL;
 node_t *__head = NULL;
+
 
 inline header_t *get_header(void *ptr)
 {
@@ -52,7 +53,9 @@ inline void coalesce_freelist(node_t *listhead)
 	node_t *node = target->next;
 	node_t *prev = target;
 
-	/* traverse the free list, coalescing neighboring regions!
+
+	//while (node != NULL) {
+           /* traverse the free list, coalescing neighboring regions!
 	 * some hints:
 	 * --> it might be easier if you sort the free list first!
 	 * --> it might require multiple passes over the free list!
@@ -126,10 +129,31 @@ void *first_fit(size_t req_size)
 	 *     of the old region.
 	 * --> If you divide a region, remember to update prev's next pointer!
 	 */
+        if (req_size == 0) {
+           return NULL;
+        } else {
+           long unsigned int  sizeToAllocate = (long unsigned) req_size + sizeof(header_t);
 
+           while (listitem != NULL) {
+              if (listitem->size >= sizeToAllocate) {
+                 ptr = listitem;
+                 prev = listitem->next;
+                 alloc->size = req_size;
+                 alloc->magic = HEAPMAGIC;
+                 node_t *newAlloc;
+                 newAlloc->size = req_size;
+                 newAlloc->next = prev;
+                 listitem->next = newAlloc;
+                 return ptr;
+              } else {
+                 prev = listitem;
+                 listitem = listitem->next;
+              }
+           }
+        }
+        return NULL;
 	if (DEBUG) printf("Returning pointer: %p\n", ptr);
-	return ptr;
-
+                 return ptr;
 }
 
 /* myalloc returns a void pointer to size bytes or NULL if it can't.
@@ -149,6 +173,10 @@ void *myalloc(size_t size)
 	}
 
 	/* perform allocation */
+        if (size == 0) {
+           return NULL;
+        }
+  
 	/* search __head for first fit */
 	if (DEBUG) printf("Going to do allocation.\n");
 
@@ -183,6 +211,10 @@ void myfree(void *ptr)
 		return;
 	}
 
+        //header_t *oldHead = __head;
+        //node_t *newHead = (node_t) header;
+        //header->next = oldHead;
+        
 	/* free the buffer pointed to by ptr!
 	 * To do this, save the location of the old head (hint, it's __head).
 	 * Then, change the allocation header_t to a node_t. Point __head
@@ -193,13 +225,16 @@ void myfree(void *ptr)
 
 	/* save the current __head of the freelist */
 	/* ??? */
-
+        node_t *oldhead = __head;
+        node_t *newHead;
+        newHead->size = header->size;
+        newHead->next = oldhead->next;
 	/* now set the __head to point to the header_t for the buffer being freed */
 	/* ??? */
-
+        __head->next = newHead;
 	/* set the new head's next to point to the old head that you saved */
 	/* ??? */
-
+        newHead->next = oldhead;
 	/* PROFIT!!! */
 
 }
