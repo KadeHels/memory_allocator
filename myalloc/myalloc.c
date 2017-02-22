@@ -143,27 +143,92 @@ void *first_fit(size_t req_size)
 	 */
         if (req_size == 0) {
            return NULL;
-        } else {
-           long unsigned int  sizeToAllocate = (long unsigned) req_size + sizeof(header_t);
+        }
+        size_t sizeToAllocate = req_size + sizeof(header_t);
 
-           while (listitem != NULL) {
+//           for(node_t *listitem = __head, *prev = NULL; listitem !=
+//                  NULL; prev = listitem, listitem = listitem->next) {
+//              if (sizeToAllocate == listitem->size) {
+//                 if (NULL == prev) {
+//                    __head = listitem->next;
+//                 } else {
+//                    prev->next = listitem->next;
+//                    prev->next->next = HEAPMAGIC;
+//                 }
+//                 alloc->size = req_size;
+//                 alloc->magic = HEAPMAGIC;
+//                 ptr = (int*) (sizeof(alloc) + alloc->size);
+//                 return ptr;
+//              } else {
+//                 if (sizeToAllocate <= listitem->size) {
+//                    size_t orgSize = listitem->size;
+//                    listitem->size = req_size;
+//                    node_t *theRest = (node_t*)(sizeof(listitem) +
+//                  sizeToAllocate);
+/*                    theRest->next = listitem->next;
+                    theRest->size = orgSize - req_size -
+                  sizeof(header_t);
+
+                    if (NULL == prev) {
+                       __head = theRest;
+                    } else {
+                       prev->next = theRest;
+                    }
+                    alloc->size = req_size;
+                    alloc->magic = HEAPMAGIC;
+                    ptr = (int*) (sizeof(alloc) + alloc->size);
+                    return ptr;
+                 }
+           }
+*/
+           prev = listitem;
+           while (listitem !=  NULL) {
+              printf("check1");
               if (listitem->size >= sizeToAllocate) {
-                 prev = listitem->next;
-                 alloc->size = req_size + sizeof(header_t);
-                 node_t *newAlloc;
-                 alloc->magic = HEAPMAGIC;
-                 newAlloc->size = req_size;
-                 newAlloc->next = prev;
-                 listitem->next = alloc;
-                 ptr  = __head->size + sizeof(header_t) + req_size;
-                 return ptr;
-              } else {
+                 printf("check2");
+                 if (listitem->size == sizeToAllocate) {
+                    node_t *newAlloc =
+                       (node_t*)(sizeof(sizeToAllocate));
+                    alloc = (int *) listitem;
+                    alloc->size = req_size;
+                    alloc->magic = HEAPMAGIC;
+                    newAlloc->size = req_size;
+                    newAlloc->next = listitem->next;
+                    prev->next = newAlloc;
+                    __head->size -= (sizeof(header_t) -
+                       sizeof(newAlloc));
+                    __head->next = HEAPMAGIC;
+                    printf("Printing head");
+                    print_node(__head);
+                    ptr = (int *) (alloc + sizeof(header_t));
+                    return ptr;
+                 } else { /* means that listitem->size >
+                             sizeToAllocate and we must split */
+                    //prev = listitem->next;
+                    printf("check 3");
+                    size_t size = listitem->size;
+                    node_t *newAlloc = (node_t*)(sizeof(listitem));
+                    alloc = listitem;
+                    alloc->size = req_size;
+                    alloc->magic = HEAPMAGIC;
+                    newAlloc->size = req_size;
+                    node_t *rest = (node_t*)((int*)newAlloc + sizeof(sizeToAllocate));;
+                    newAlloc->next = rest;
+                    rest->size = size - req_size - sizeof(header_t);
+                    rest->next = prev->next;
+                    __head = rest;
+                    //prev->next = __head;
+                    ptr  = (int *) (alloc + sizeof(header_t));
+                    return ptr; // ptr to a region of that size or greater
+                 }
+              }else {
                  prev = listitem;
                  listitem = listitem->next;
               }
            }
-        }
-        return NULL;
+           
+           return NULL;
+        
 	if (DEBUG) printf("Returning pointer: %p\n", ptr);
                  return ptr;
 }
