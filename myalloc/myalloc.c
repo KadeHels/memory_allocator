@@ -54,29 +54,28 @@ inline void coalesce_freelist(node_t *listhead)
    node_t *prev = target;
    node_t *newHead = NULL;
 
-   //    for (
-   //    }
-   //for (node_t *target = __head; target != NULL;) {
-   //           int *neighbor = (int*)target + sizeof(header_t) +
-   //           target->size;
-   //           if (neighbor == (int*)target->next) {
-   //              node_t *node_next = target->next->next;
-   //              target->size += sizeof(header_t) +
-   //    target->next->size;
-   //              target->next = node_next;
-   //              //And now retry it since target can be coalesced
-   //    with it's neighbor
-   //              continue;
-   //           } else {
-   //              target = target->next;
-   //           }
-   //        }
+   while (node != NULL) {
+
+   }
+   for (node_t *target = __head; target != NULL;) {
+      int *neighbor = (int*)target + sizeof(header_t) +
+         target->size;
+      if (neighbor == (int*)target->next) {
+         node_t *node_next = target->next->next;
+         target->size += sizeof(header_t) + target->next->size;
+         target->next = node_next;
+         //And now retry it since target can be coalesced with it'  neighbor
+      continue;
+      } else {
+         target = target->next;
+      }
+   }
    /* traverse the free list, coalescing neighboring regions!
     * some hints:
     * --> it might be easier if you sort the free list first!
     * --> it might require multiple passes over the free list!
     * --> it might be easier if you call some helper functions from
-   //    here
+   here
    * --> see print_free_list_from for basic code for traversing a
    *     linked list!
    */
@@ -127,8 +126,9 @@ void *first_fit(size_t req_size)
    node_t *listitem = __head; /* cursor into our linked list */
    node_t *prev = NULL; /* if listitem is __head, then prev must be
                            null */
-   header_t *alloc; /* a pointer to a header you can use for your
-                       allocation */
+   header_t *alloc = NULL; /* a pointer to a header you can use for
+                              your allocation */
+   char *a;
 
    /* traverse the free list from __head! when you encounter a region
    that
@@ -161,19 +161,27 @@ void *first_fit(size_t req_size)
    if (req_size == 0) {
       return NULL;
    } else {
-      size_t sizeToAlloc = req_size + sizeof(header_t);
+      //            printf("REQ SIZE : %lu", req_size);
+      size_t sizeToAlloc = req_size + (size_t) sizeof(header_t);
       int count = 0;
-      void* tempAddress;
-      int tempSize;
+      void *newtempAddress = NULL;
+      size_t tempSize;
       while (listitem != NULL) {
-         tempAddress = listitem;
+         newtempAddress = listitem;
          tempSize = listitem->size;
          count += 1;
-         if (listitem->size >= sizeToAlloc) {
-            alloc = tempAddress;
-            alloc->size = listitem->size;
+         if (listitem->size - sizeof(header_t) >= sizeToAlloc) {
+            //                    printf("INSIDE FIRST IF");
+            alloc = newtempAddress;
+            alloc->size = req_size;
             alloc->magic = HEAPMAGIC;
-            ptr = alloc;
+            printf("PRINTINGHEADER");
+            print_header(alloc);
+            printf("PRINTING HEADPOINTER");
+            print_node(__head);
+
+            ptr = (void *) ((long unsigned)alloc + sizeof(header_t));
+            printf("PRINTING PTR %p/n", ptr);
             break;
          } else {
             prev = listitem;
@@ -182,21 +190,39 @@ void *first_fit(size_t req_size)
       }
       if (tempSize > sizeToAlloc) {
          //splitting
-         node_t *newFree = (tempAddress + sizeof(header_t));
-         newFree->size = alloc->size - sizeToAlloc;
+         //                printf("INSIDE SPLITTING");
+         node_t *newFree = (newtempAddress + 2 * sizeof(header_t) +
+                            alloc->size +sizeof(a));
+         if (prev != NULL) {
+            prev->next = newFree;
+         } else {
+            prev = newFree;
+         }
+         newFree->size = (long unsigned)(tempSize - sizeToAlloc -
+            sizeof(header_t));
+         printf("NEWFREESIZE: %lu\n", newFree->size);
          newFree->next = listitem->next;
-         __head = newFree;
-         __head->next = NULL;
-         __head->size = __head->size - sizeof(header_t) - sizeof(req_size);
-      } else if (tempSize == sizeToAlloc) {
-         // perfect match and no split
-         prev->next = listitem->next;
-      }
-      return ptr;
+         __head = (newFree - sizeof(header_t));
+      __head->size = newFree->size;
+      //printf("NEWHEADSIZE: %lu\n", __head->size);
+      __head->next = NULL;
+   } else if (tempSize == sizeToAlloc) {
+      // perfect match and no split
+      printf("INSIDE NOT SPLITTING");
+      prev->next = listitem->next;
+      __head = listitem->next;
+      __head->size = __head->size - (long unsigned) (sizeToAlloc);
+      __head->next->next = listitem->next->next;
    }
-   ptr = NULL;
-   if (DEBUG) printf("Returning pointer: %p\n", ptr);
-   return ptr;
+   //return ptr;
+}
+printf("PRINTINGHEADER");
+print_header(alloc);
+printf("PRINTING HEADPOINTER");
+print_node(__head);
+if (DEBUG) printf("Returning pointer: %p\n", ptr);
+
+return ptr;
 }
 
 /* myalloc returns a void pointer to size bytes or NULL if it can't.
@@ -271,17 +297,20 @@ void myfree(void *ptr)
    /* save the current __head of the freelist */
    /* ??? */
    node_t *oldhead = __head;
-   //node_t *deallocated;
-   //deallocated->size = header->size + sizeof(header_t);
+   //        node_t *deallocated = header + sizeof(header_t);
+   //        deallocated->size = header->size;
 
    /* now set the __head to point to the header_t for the buffer being
       freed */
    /* ??? */
    __head = (node_t*) header;
+   //__head->size = oldhead->size + sizeof(header_t) + header->size;
    /* set the new head's next to point to the old head that you saved
       */
    /* ??? */
    __head->next = oldhead;
+   //    __head->next = deallocated;
+   //    deallocated->next = oldhead;
    /* PROFIT!!! */
 
 }
