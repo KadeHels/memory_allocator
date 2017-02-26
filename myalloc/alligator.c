@@ -10,7 +10,7 @@ void *alloc_check(size_t size)
 	 * information
 	 */
 
-	void *ptr; /* temp ptr for allocation */
+	void *ptr = NULL; /* temp ptr for allocation */
 
 	if ((ptr = myalloc(size)) == NULL)
 	{
