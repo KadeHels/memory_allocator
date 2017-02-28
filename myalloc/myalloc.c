@@ -49,22 +49,67 @@ inline void coalesce_freelist(node_t *listhead)
    /* coalesce all neighboring free regions in the free list */
 
    if (DEBUG) printf("In coalesce freelist...\n");
+
+   node_t *start = listhead;
+   node_t *next = start->next;
+   int list_size = 0;
+   perror("Start counting");
+
+   while(start != NULL){
+      ++list_size;
+      start = start->next;
+   }
+   int* sort_list[list_size];
+   int* shortest;
+   int* previous_shortest = 0;
+
+   perror("starting for loop");
+   for(int i = 0; i < list_size; ++i){
+      start = listhead;
+      while(start->next != NULL ){
+         if(start < start->next && start > previous_shortest){
+            shortest = start;
+         }
+         else{
+            shortest = start->next;
+         }
+         start = start->next;
+      }
+      sort_list[i] = shortest;
+      previous_shortest = shortest;
+   }
+
+   perror("End for loop");
+   int j = 0 ;
+
+   while( j < list_size){
+      printf("%p \n", sort_list[j]);
+      j++;
+   }
+   
+   while(0<1){
+      
+   }
+
    node_t *target = listhead;
    node_t *node = target->next;
    node_t *prev = target;
    node_t *newHead = NULL;
 
-   while (node != NULL) {
+   //while (node != NULL) {
 
-   }
-   for (node_t *target = __head; target != NULL;) {
+      //}
+      for (node_t *target = __head; target != NULL;) {
+         perror("Inside for loop");
       int *neighbor = (int*)target + sizeof(header_t) +
          target->size;
+      printf("neighbor: %p && next: %p\n", neighbor, (int*)target->next);
       if (neighbor == (int*)target->next) {
+         perror("Inside if");
          node_t *node_next = target->next->next;
          target->size += sizeof(header_t) + target->next->size;
          target->next = node_next;
-         //And now retry it since target can be coalesced with it'  neighbor
+         //And now retry it since target can be coalesced with it's  neighbor
       continue;
       } else {
          target = target->next;
