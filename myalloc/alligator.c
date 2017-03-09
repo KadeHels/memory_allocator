@@ -83,7 +83,8 @@ int is_free_list_good(node_t* head, int* correct, int size) {
 		}
 		if (found == 0) {
 			printf("Freelist check: Freelist node contains incorrect size.\n");
-			printf("Freelist check: size is %d\n", cur_size);
+			printf("Freelist check: size is %d\n",cur_size);
+                        
 			return 0;
 		}
 		cur = cur->next;

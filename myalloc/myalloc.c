@@ -39,6 +39,7 @@ void print_freelist_from(node_t *node)
    printf("\nPrinting freelist from %p\n", node);
    while (node != NULL)
    {
+      printf("Point of NO return NODE: %d NODE->NEXT: %d", node, node->next);
       print_node(node);
       node = node->next;
    }
@@ -177,7 +178,7 @@ void *first_fit(size_t req_size)
 
    /* traverse the free list from __head! when you encounter a region
    that
-   * is large enough to hold the buffer and required header, use it!
+   * is large  enough to hold the buffer and required header, use it!
    * If the region is larger than you need, split the buffer into two
    * regions: first, the region that you allocate and second, a new
    (smaller)
@@ -203,7 +204,7 @@ void *first_fit(size_t req_size)
    * --> If you divide a region, remember to update prev's next
    * pointer!
    */
-   if (req_size == 0) {
+   if (req_size <= 0) {
       return NULL;
    } else {
       //            printf("REQ SIZE : %lu", req_size);
@@ -211,6 +212,7 @@ void *first_fit(size_t req_size)
       int count = 0;
       void *newtempAddress = NULL;
       size_t tempSize;
+
       while (listitem != NULL) {
          newtempAddress = listitem;
          tempSize = listitem->size;
@@ -226,7 +228,7 @@ void *first_fit(size_t req_size)
             print_node(__head);
 
             ptr = (void *) ((long unsigned)alloc + sizeof(header_t));
-            printf("PRINTING PTR %p/n", ptr);
+            printf("PRINTING PTR %p\n", ptr);
             break;
          } else {
             prev = listitem;
@@ -235,7 +237,7 @@ void *first_fit(size_t req_size)
       }
       if (tempSize > sizeToAlloc) {
          //splitting
-         //                printf("INSIDE SPLITTING");
+         printf("INSIDE SPLITTING");
          node_t *newFree = (newtempAddress + 2 * sizeof(header_t) +
                             alloc->size +sizeof(a));
          if (prev != NULL) {
@@ -243,11 +245,13 @@ void *first_fit(size_t req_size)
          } else {
             prev = newFree;
          }
+         //potential size conversion error??
          newFree->size = (long unsigned)(tempSize - sizeToAlloc -
             sizeof(header_t));
-         printf("NEWFREESIZE: %lu\n", newFree->size);
+         printf("NEW FREE SIZE: %lu\n", newFree->size);
+         printf("SIZE OF TEMP: %ld -- SIZE TO ALLOC: %ld -- SIZE OF HEAD: %ld \n", tempSize, sizeToAlloc, sizeof(header_t));
          newFree->next = listitem->next;
-         __head = (newFree - sizeof(header_t));
+         __head = (newFree);
       __head->size = newFree->size;
       //printf("NEWHEADSIZE: %lu\n", __head->size);
       __head->next = NULL;
@@ -261,7 +265,7 @@ void *first_fit(size_t req_size)
    }
    //return ptr;
 }
-printf("PRINTINGHEADER");
+printf("PRINTING HEADER");
 print_header(alloc);
 printf("PRINTING HEADPOINTER");
 print_node(__head);
