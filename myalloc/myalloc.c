@@ -39,7 +39,7 @@ void print_freelist_from(node_t *node)
    printf("\nPrinting freelist from %p\n", node);
    while (node != NULL)
    {
-      printf("Point of NO return NODE: %d NODE->NEXT: %d", node, node->next);
+      printf("Point of NO return NODE: %d NODE->NEXT: %d \n", node, node->next);
       print_node(node);
       node = node->next;
    }
@@ -89,7 +89,8 @@ inline void coalesce_freelist(node_t *listhead)
    }
    
    while(0<1){
-      
+      printf("KILL");
+      wait(1);
    }
 
    node_t *target = listhead;
@@ -208,7 +209,7 @@ void *first_fit(size_t req_size)
       return NULL;
    } else {
       //            printf("REQ SIZE : %lu", req_size);
-      size_t sizeToAlloc = req_size + (size_t) sizeof(header_t);
+      size_t sizeToAlloc = req_size  + (size_t) sizeof(header_t);
       int count = 0;
       void *newtempAddress = NULL;
       size_t tempSize;
@@ -218,17 +219,23 @@ void *first_fit(size_t req_size)
          tempSize = listitem->size;
          count += 1;
          if (listitem->size - sizeof(header_t) >= sizeToAlloc) {
-            //                    printf("INSIDE FIRST IF");
+                                printf("INSIDE FIRST IF \n");
             alloc = newtempAddress;
             alloc->size = req_size;
             alloc->magic = HEAPMAGIC;
-            printf("PRINTINGHEADER");
+            printf("PRINTING HEADER");
             print_header(alloc);
             printf("PRINTING HEADPOINTER");
             print_node(__head);
 
+            /*CHANGED adding the size of a header makes the magic
+              number correct but creates a sys dump */
             ptr = (void *) ((long unsigned)alloc + sizeof(header_t));
             printf("PRINTING PTR %p\n", ptr);
+
+            header_t* t = (header_t *)(ptr - sizeof(header_t));
+            printf("PTR IN FIRST FIT: %08lx\n", t->magic);
+            printf("PTR SIZE in FIRST FIT: %lu\n", t->size);
             break;
          } else {
             prev = listitem;
@@ -237,17 +244,16 @@ void *first_fit(size_t req_size)
       }
       if (tempSize > sizeToAlloc) {
          //splitting
-         printf("INSIDE SPLITTING");
+         printf("INSIDE SPLITTING \n");
          node_t *newFree = (newtempAddress + 2 * sizeof(header_t) +
-                            alloc->size +sizeof(a));
+                            alloc->size + sizeof(a));
          if (prev != NULL) {
             prev->next = newFree;
          } else {
             prev = newFree;
          }
-         //potential size conversion error??
-         newFree->size = (long unsigned)(tempSize - sizeToAlloc -
-            sizeof(header_t));
+         //CHANGED potential size conversion error??
+         newFree->size = (long unsigned)(tempSize - sizeToAlloc); //- sizeof(header_t));
          printf("NEW FREE SIZE: %lu\n", newFree->size);
          printf("SIZE OF TEMP: %ld -- SIZE TO ALLOC: %ld -- SIZE OF HEAD: %ld \n", tempSize, sizeToAlloc, sizeof(header_t));
          newFree->next = listitem->next;
@@ -271,6 +277,9 @@ printf("PRINTING HEADPOINTER");
 print_node(__head);
 if (DEBUG) printf("Returning pointer: %p\n", ptr);
 
+header_t* t = (header_t *)(ptr - sizeof(header_t));
+printf("PRINTING RETURNED POINTER MAGIC: %08lx \n", t->magic);
+printf("PRINTING RETURNED POINTER SIZE: %ld \n", t->size);
 return ptr;
 }
 

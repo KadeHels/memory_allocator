@@ -37,11 +37,13 @@ void *alloc_check(size_t size)
 // If good returns 1, else 0.
 int is_header_good(void* ptr, int size) {
 	if (ptr == NULL) {
+           printf("PTR IS NULL \n");
 		return 0;
 	}
 	header_t* t = (header_t *)(ptr - sizeof(header_t));
 	if (t->magic != HEAPMAGIC) {
 		printf("Header Magic number not correct.\n");
+                printf("HEADER MAGIC: %08lx HEAPMAGIC: %08lx \n", t->magic, HEAPMAGIC);
 		// Magic is not right.
 		return 0;
 	}
@@ -112,6 +114,9 @@ int complete_state_check(node_t* head, int* freelist, int freelist_size, void** 
 		printf("]\n");
 		return 0;
 	}
+        else{
+           printf("FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE\n");
+        }
 	for (int i=0; i < ptr_size; i++) {
 		if (sizes[i] == -2) {
 			// Good
