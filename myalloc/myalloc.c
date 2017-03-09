@@ -89,8 +89,6 @@ inline void coalesce_freelist(node_t *listhead)
    }
    
    while(0<1){
-      printf("KILL");
-      wait(1);
    }
 
    node_t *target = listhead;
@@ -208,16 +206,17 @@ void *first_fit(size_t req_size)
    if (req_size <= 0) {
       return NULL;
    } else {
-      //            printf("REQ SIZE : %lu", req_size);
+                 printf("REQ SIZE : %lu \n", req_size);
       size_t sizeToAlloc = req_size  + (size_t) sizeof(header_t);
       int count = 0;
       void *newtempAddress = NULL;
       size_t tempSize;
-
+      perror("Before while");
       while (listitem != NULL) {
          newtempAddress = listitem;
          tempSize = listitem->size;
          count += 1;
+         perror("Before IF");
          if (listitem->size - sizeof(header_t) >= sizeToAlloc) {
                                 printf("INSIDE FIRST IF \n");
             alloc = newtempAddress;
@@ -238,10 +237,12 @@ void *first_fit(size_t req_size)
             printf("PTR SIZE in FIRST FIT: %lu\n", t->size);
             break;
          } else {
+            perror("Get the next element cause no space");
             prev = listitem;
             listitem = listitem->next;
          }
       }
+      perror("Out of the While loop");
       if (tempSize > sizeToAlloc) {
          //splitting
          printf("INSIDE SPLITTING \n");
@@ -269,17 +270,26 @@ void *first_fit(size_t req_size)
       __head->size = __head->size - (long unsigned) (sizeToAlloc);
       __head->next->next = listitem->next->next;
    }
+      else{
+         perror("NO IF NO ELSE IF");
+      }
    //return ptr;
 }
+   perror("LETS PRINT THIS ALLOC eh?");
 printf("PRINTING HEADER");
-print_header(alloc);
+if(alloc != NULL){
+   print_header(alloc);
+}
+perror("LETS PRINT THIS HEAD PTR eh?");
 printf("PRINTING HEADPOINTER");
 print_node(__head);
 if (DEBUG) printf("Returning pointer: %p\n", ptr);
 
-header_t* t = (header_t *)(ptr - sizeof(header_t));
-printf("PRINTING RETURNED POINTER MAGIC: %08lx \n", t->magic);
-printf("PRINTING RETURNED POINTER SIZE: %ld \n", t->size);
+if(ptr != NULL){
+   header_t* t = (header_t *)(ptr - sizeof(header_t));
+   printf("PRINTING RETURNED POINTER MAGIC: %08lx \n", t->magic);
+   printf("PRINTING RETURNED POINTER SIZE: %ld \n", t->size);
+}
 return ptr;
 }
 
