@@ -68,6 +68,7 @@ inline void coalesce_freelist(node_t *listhead)
    printf("Printing neighbors:\n");
    while(start!= NULL){
          print_node(start);
+         print_header(start);
          start = start->next;
    }
 
