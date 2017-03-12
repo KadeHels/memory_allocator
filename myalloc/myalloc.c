@@ -39,7 +39,6 @@ void print_freelist_from(node_t *node)
    printf("\nPrinting freelist from %p\n", node);
    while (node != NULL)
    {
-      printf("Point of NO return NODE: %d NODE->NEXT: %d \n", node, node->next);
       print_node(node);
       node = node->next;
    }
@@ -54,67 +53,85 @@ inline void coalesce_freelist(node_t *listhead)
    node_t *start = listhead;
    node_t *next = start->next;
    int list_size = 0;
-   perror("Start counting");
 
+   //count the list
    while(start != NULL){
       ++list_size;
       start = start->next;
    }
-   int* sort_list[list_size];
-   int* shortest;
-   int* previous_shortest = 0;
+   
+   node_t* sort_list[list_size];
+   node_t* shortest;
+   node_t* previous_shortest;
 
-   perror("starting for loop");
-   for(int i = 0; i < list_size; ++i){
+   start = listhead;
+   printf("Printing neighbors:\n");
+   while(start!= NULL){
+         print_node(start);
+         start = start->next;
+   }
+
+   printf("NEED TO REWORK THE SORT");
+   printf("******************************\n");
+   printf("Sorting by neighboring regions\n");
       start = listhead;
-      while(start->next != NULL ){
+      
+      int i=0;
+      while(start != NULL && i < list_size){
          if(start < start->next && start > previous_shortest){
             shortest = start;
          }
-         else{
-            shortest = start->next;
+         
+         if(shortest){
+            //perror("Shortest:");
+            //print_node(shortest);
          }
+         sort_list[i] = shortest;
+         previous_shortest = shortest;
+         ++i;
          start = start->next;
       }
-      sort_list[i] = shortest;
-      previous_shortest = shortest;
-   }
-
-   perror("End for loop");
+      
+      //sort_list[i] = shortest;
+      //previous_shortest = shortest;
+   
    int j = 0 ;
 
    while( j < list_size){
       printf("%p \n", sort_list[j]);
       j++;
    }
+   printf("******************************\n");
    
-   while(0<1){
-   }
-
+   printf("Coalescing\n");
+   
    node_t *target = listhead;
    node_t *node = target->next;
    node_t *prev = target;
    node_t *newHead = NULL;
 
-   //while (node != NULL) {
-
-      //}
+   int k = 0;
       for (node_t *target = __head; target != NULL;) {
-         perror("Inside for loop");
-      int *neighbor = (int*)target + sizeof(header_t) +
-         target->size;
-      printf("neighbor: %p && next: %p\n", neighbor, (int*)target->next);
-      if (neighbor == (int*)target->next) {
-         perror("Inside if");
+         node_t *neighbor = target; 
+         //target->size;
+      printf("neighbor: %p && next: %p shortest: %p\n", neighbor, (int*)target->next, sort_list[k]);
+      if (neighbor == sort_list[k]) {
+         printf("   HIT\n");
          node_t *node_next = target->next->next;
-         target->size += sizeof(header_t) + target->next->size;
-         target->next = node_next;
-         //And now retry it since target can be coalesced with it's  neighbor
+         neighbor->size += sizeof(header_t) + target->size;
+         neighbor->next = target->next;
+         
+         target = node_next;
+         ++k;
+//And now retry it since target can be coalesced with it's  neighbor
       continue;
       } else {
          target = target->next;
       }
    }
+
+      printf("******************************\n");
+      
    /* traverse the free list, coalescing neighboring regions!
     * some hints:
     * --> it might be easier if you sort the free list first!
@@ -211,14 +228,12 @@ void *first_fit(size_t req_size)
       int count = 0;
       void *newtempAddress = NULL;
       size_t tempSize;
-      perror("Before while");
       while (listitem != NULL) {
          newtempAddress = listitem;
          tempSize = listitem->size;
          count += 1;
-         perror("Before IF");
          if (listitem->size - sizeof(header_t) >= sizeToAlloc) {
-                                printf("INSIDE FIRST IF \n");
+            //                       printf("INSIDE FIRST IF \n");
             alloc = newtempAddress;
             alloc->size = req_size;
             alloc->magic = HEAPMAGIC;
@@ -242,7 +257,6 @@ void *first_fit(size_t req_size)
             listitem = listitem->next;
          }
       }
-      perror("Out of the While loop");
       if (tempSize > sizeToAlloc) {
          //splitting
          printf("INSIDE SPLITTING \n");
@@ -271,18 +285,20 @@ void *first_fit(size_t req_size)
       __head->next->next = listitem->next->next;
    }
       else{
-         perror("NO IF NO ELSE IF");
+         printf("NO FIT FOR THIS ALLOCATION!");
       }
    //return ptr;
 }
-   perror("LETS PRINT THIS ALLOC eh?");
-printf("PRINTING HEADER");
 if(alloc != NULL){
+   printf("PRINTING HEADER");
    print_header(alloc);
 }
-perror("LETS PRINT THIS HEAD PTR eh?");
-printf("PRINTING HEADPOINTER");
-print_node(__head);
+else{
+   printf("THE ALLOCATION IS NULL CAN'T PRINT IT");
+}
+   printf("PRINTING HEADPOINTER");
+   print_node(__head);
+
 if (DEBUG) printf("Returning pointer: %p\n", ptr);
 
 if(ptr != NULL){
