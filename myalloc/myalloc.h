@@ -8,7 +8,7 @@
 /* linked list element */
 typedef struct __node_t {
 	long unsigned	size;
-	struct			 __node_t *next;
+	struct __node_t *next;
 } node_t;
 
 /* buffer metadata structure */
