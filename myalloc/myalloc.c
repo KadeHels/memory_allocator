@@ -201,7 +201,47 @@ void *first_fit(size_t req_size)
          newtempAddress = listitem;
          tempSize = listitem->size;
          count += 1;
-         if (listitem->size - sizeof(header_t) >= sizeToAlloc) {
+         if (listitem->size >= sizeToAlloc) {
+             if (tempSize > sizeToAlloc) {
+                 printf("INSIDE SPLITTING \n");
+                 
+                 //?? netempaddress messing up??
+                 node_t *newFree = ((void*)newtempAddress + sizeToAlloc);
+                 
+                 //CHANGED potential size conversion error??
+                 newFree->size = (long unsigned)(tempSize - sizeToAlloc); //- sizeof(header_t));
+                 printf("NEW FREE SIZE: %lu\n", newFree->size);
+                 printf("SIZE OF TEMP: %ld -- SIZE TO ALLOC: %ld -- SIZE OF HEAD: %ld \n", tempSize, sizeToAlloc, sizeof(header_t));
+                 
+                 //??
+                 if (prev != NULL) {
+                     printf("**************LJK");
+                     prev->next = newFree;
+                     newFree->next = listitem->next;
+                 } else {
+                     __head = (newFree);
+                     newFree->next = listitem->next;
+                 }
+                 
+//                 __head->size = newFree->size;
+                 //printf("NEWHEADSIZE: %lu\n", __head->size);
+//                 if(__head != NULL){
+//                     printf("YYXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
+//                     //Test here
+//                 }
+//                 __head->next = NULL;
+             } else if (tempSize == sizeToAlloc) {
+                 // perfect match and no split
+                 printf("INSIDE NOT SPLITTING");
+                 //?? why always split at the head?
+                 prev->next = listitem->next;
+                 __head = listitem->next;
+                 __head->size = __head->size - (long unsigned) (sizeToAlloc);
+                 __head->next->next = listitem->next->next;
+             }
+             else{
+                 printf("NO FIT FOR THIS ALLOCATION!");
+             }
             alloc = newtempAddress;
             alloc->size = req_size;
             alloc->magic = HEAPMAGIC;
@@ -209,23 +249,14 @@ void *first_fit(size_t req_size)
             print_header(alloc);
             printf("PRINTING ALLOC");
             print_node(alloc);
-            ptr = (void *) ((long unsigned)alloc + sizeof(header_t));
+            ptr = (void *)alloc + sizeof(header_t);
 
             //testing
             printf("PRINTING PTR %p\n", ptr);
-            header_t* t = (header_t *)(ptr - sizeof(header_t));
-            printf("PTR Magic: %08lx\n", t->magic);
-            printf("PTR SIZE in FIRST FIT: %lu\n", t->size);
-
-
-            //node_t *  n = (node_t *) ptr;
-            //printf("PTR AS NODE:\n");
-            //print_node((node_t *) ptr);
-
-            //node_t *  n = (node_t *) ptr;
-            //printf("PTR AS NODE:\n");
-            
-            //print_node(n);
+//            header_t* t = (header_t *)ptr - sizeof(header_t));
+//            printf("PTR Magic: %08lx\n", t->magic);
+//             printf("PTR SIZE in FIRST FIT: %lu\n", t->size);
+             print_freelist_from(__head);
             
             
             break;
@@ -235,87 +266,74 @@ void *first_fit(size_t req_size)
             listitem = listitem->next;
          }
       }
-      //link previous to the new allocation
-      if(prev != NULL && alloc != NULL){
-         prev->next = alloc;
-      }
 
       //splitting
-      if (tempSize > sizeToAlloc) {
-         printf("INSIDE SPLITTING \n");
-
-         //?? netempaddress messing up??
-         node_t *newFree = (newtempAddress + 2 * sizeof(header_t) +
-                            alloc->size + sizeof(a));
-         //new space should be put on the end of the allocation
-         if (ptr != NULL) {
-            //TODO: make sure that the previous pointer points to the next ptr
-            node_t *  n = (node_t *) ptr;
-            n->next = newFree;
-            printf("))))))))))))))))))))))))))))))))))))))))))))))))))))))))\n");
-            print_node(ptr-16);
-            print_header(ptr-16);
-            
-         } 
-         //CHANGED potential size conversion error??
-         newFree->size = (long unsigned)(tempSize - sizeToAlloc); //- sizeof(header_t));
-         printf("NEW FREE SIZE: %lu\n", newFree->size);
-         printf("SIZE OF TEMP: %ld -- SIZE TO ALLOC: %ld -- SIZE OF HEAD: %ld \n", tempSize, sizeToAlloc, sizeof(header_t));
-
-         //?? 
-         newFree->next = listitem;
-         if(newFree->next != NULL){
-            printf("YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
-            print_node(newFree);
-            printf("->\n");
-            print_node(listitem);
-            printf("\n");
-      }
-         __head = (newFree);
-         __head->size = newFree->size;
-      //printf("NEWHEADSIZE: %lu\n", __head->size);
-         if(__head != NULL){
-            printf("YYXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
-            //Test here
-         }
-         __head->next = NULL;
-   } else if (tempSize == sizeToAlloc) {
-      // perfect match and no split
-      printf("INSIDE NOT SPLITTING");
-      //?? why always split at the head?
-      prev->next = listitem->next;
-      __head = listitem->next;
-      __head->size = __head->size - (long unsigned) (sizeToAlloc);
-      __head->next->next = listitem->next->next;
-   }
-      else{
-         printf("NO FIT FOR THIS ALLOCATION!");
-      }
+//      if (tempSize > sizeToAlloc) {
+//         printf("INSIDE SPLITTING \n");
+//
+//         //?? netempaddress messing up??
+//         node_t *newFree = (newtempAddress + sizeof(header_t) +
+//                            alloc->size + sizeof(a));
+//
+//         //CHANGED potential size conversion error??
+//         newFree->size = (long unsigned)(tempSize - sizeToAlloc); //- sizeof(header_t));
+//         printf("NEW FREE SIZE: %lu\n", newFree->size);
+//         printf("SIZE OF TEMP: %ld -- SIZE TO ALLOC: %ld -- SIZE OF HEAD: %ld \n", tempSize, sizeToAlloc, sizeof(header_t));
+//
+//         //??
+//          if (prev != NULL) {
+//              printf("**************LJK");
+//              prev->next = newFree;
+//              newFree->next = listitem->next;
+//          } else {
+//              __head = (newFree);
+//              newFree->next = listitem;
+//          }
+//
+//         __head->size = newFree->size;
+//      //printf("NEWHEADSIZE: %lu\n", __head->size);
+//         if(__head != NULL){
+//            printf("YYXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
+//            //Test here
+//         }
+//         __head->next = NULL;
+//   } else if (tempSize == sizeToAlloc) {
+//      // perfect match and no split
+//      printf("INSIDE NOT SPLITTING");
+//      //?? why always split at the head?
+//      prev->next = listitem->next;
+//      __head = listitem->next;
+//      __head->size = __head->size - (long unsigned) (sizeToAlloc);
+//      __head->next->next = listitem->next->next;
+//   }
+//      else{
+//         printf("NO FIT FOR THIS ALLOCATION!");
+//      }
 }
 
 
 if (DEBUG) printf("Returning pointer: %p\n", ptr);
 
-if(ptr != NULL){
-
-   //?? TODO: pointer not being set correctly?
-   header_t* t = (header_t *)(ptr - sizeof(header_t));
-   node_t * rtn_node = (node_t *) (ptr-16); 
-   printf("PRINTING RETURNED POINTER\n");
-   print_header(t);
-   print_node(rtn_node);
-}
-
-
-printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-printf("Printing FREELIST at ending of Myalloc\n");
-node_t *end = __head;
-while(end!= NULL){
-   print_node(end);
-   print_header(end);
-   end = end->next;
-
-}
+//if(ptr != NULL){
+//
+//   //?? TODO: pointer not being set correctly?
+//   header_t* t = (header_t *)(ptr - sizeof(header_t));
+//   node_t * rtn_node = (node_t *) (ptr-16); 
+//   printf("PRINTING RETURNED POINTER\n");
+//   print_header(t);
+//   print_node(rtn_node);
+//}
+//
+//
+//printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+//printf("Printing FREELIST at ending of Myalloc\n");
+//node_t *end = __head;
+//while(end!= NULL){
+//   print_node(end);
+//   print_header(end);
+//   end = end->next;
+//
+//}
 
 
 return ptr;
