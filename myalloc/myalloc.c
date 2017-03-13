@@ -67,7 +67,8 @@ inline void coalesce_freelist(node_t *listhead)
    start = listhead;
    printf("Printing neighbors:\n");
    while(start!= NULL){
-         print_node(start);
+      print_node(start);
+      print_header(start);
          start = start->next;
    }
 
@@ -84,7 +85,8 @@ inline void coalesce_freelist(node_t *listhead)
    printf("******************************\n");
    printf("Sorting by neighboring regions\n");
       start = listhead;
-      
+
+      //REFERENCE: http://www.sanfoundry.com/c-program-sort-array-ascending-order/
       for (int i = 0; i < list_size; ++i)
       {
          for (int j = i + 1; j < list_size; ++j)
@@ -134,9 +136,9 @@ inline void coalesce_freelist(node_t *listhead)
    node_t *prev = target;
    node_t *newHead = NULL;
 
-   //redecloration??
+   
    int k = 0;
-      for (node_t *target = __head; target != NULL;) {
+      for (node_t *target = listhead; target != NULL;) {
          node_t *neighbor = target;
          //target->size;
       printf("neighbor: %p && next: %p sorted: %p\n", neighbor, (int*)target->next, sort_list[k]);
@@ -228,38 +230,21 @@ void *first_fit(size_t req_size)
                               your allocation */
    char *a;
 
-   /* traverse the free list from __head! when you encounter a region
-   that
-   * is large  enough to hold the buffer and required header, use it!
-   * If the region is larger than you need, split the buffer into two
-   * regions: first, the region that you allocate and second, a new
-   (smaller)
-   * free region that goes on the free list in the same spot as the
-   old free
-   * list node_t.
-   *
-   * If you traverse the whole list and can't find space, return a
-   * null
-   * pointer! :(
-   *
-   * Hints:
-   * --> see print_freelist_from to see how to traverse a linked list
-   * --> remember to keep track of the previous free region (prev) so
-   *     that, when you divide a free region, you can splice the
-   * linked
-   *     list together (you'll either use an entire free region, so
-   * you
-   *     point prev to what used to be next, or you'll create a new
-   *     (smaller) free region, which should have the same prev and
-   * the next
-   *     of the old region.
-   * --> If you divide a region, remember to update prev's next
-   * pointer!
-   */
+   printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+   printf("Printing FREELIST at beginning of Myalloc\n");
+   node_t *start = listitem;
+   while(start!= NULL){
+      print_node(start);
+      print_header(start);
+      start = start->next;
+
+   }
+
+   //allocate
    if (req_size <= 0) {
       return NULL;
    } else {
-                 printf("REQ SIZE : %lu \n", req_size);
+      //            printf("REQ SIZE : %lu \n", req_size);
       size_t sizeToAlloc = req_size  + (size_t) sizeof(header_t);
       int count = 0;
       void *newtempAddress = NULL;
@@ -269,7 +254,6 @@ void *first_fit(size_t req_size)
          tempSize = listitem->size;
          count += 1;
          if (listitem->size - sizeof(header_t) >= sizeToAlloc) {
-            //                       printf("INSIDE FIRST IF \n");
             alloc = newtempAddress;
             alloc->size = req_size;
             alloc->magic = HEAPMAGIC;
@@ -286,6 +270,10 @@ void *first_fit(size_t req_size)
             header_t* t = (header_t *)(ptr - sizeof(header_t));
             printf("PTR IN FIRST FIT: %08lx\n", t->magic);
             printf("PTR SIZE in FIRST FIT: %lu\n", t->size);
+            
+            node_t* n = (node_t *) ptr;
+            printf("sHFSAJLKFJASLKFJKALSFJ KASJFKLASJFKLASJKFJASKL");
+            print_node(n);
             break;
          } else {
             perror("Get the next element cause no space");
@@ -308,10 +296,20 @@ void *first_fit(size_t req_size)
          printf("NEW FREE SIZE: %lu\n", newFree->size);
          printf("SIZE OF TEMP: %ld -- SIZE TO ALLOC: %ld -- SIZE OF HEAD: %ld \n", tempSize, sizeToAlloc, sizeof(header_t));
          newFree->next = listitem->next;
+         if(newFree->next){
+            printf("YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            print_node(listitem);
+            printf("\n");
+         print_node(newFree);
+      }
          __head = (newFree);
-      __head->size = newFree->size;
+         __head->size = newFree->size;
       //printf("NEWHEADSIZE: %lu\n", __head->size);
-      __head->next = NULL;
+         if(__head != NULL){
+            perror("YYXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            print_node(__head);
+         }
+         __head->next = NULL;
    } else if (tempSize == sizeToAlloc) {
       // perfect match and no split
       printf("INSIDE NOT SPLITTING");
@@ -323,7 +321,6 @@ void *first_fit(size_t req_size)
       else{
          printf("NO FIT FOR THIS ALLOCATION!");
       }
-   //return ptr;
 }
 if(alloc != NULL){
    printf("PRINTING HEADER");
@@ -342,6 +339,19 @@ if(ptr != NULL){
    printf("PRINTING RETURNED POINTER MAGIC: %08lx \n", t->magic);
    printf("PRINTING RETURNED POINTER SIZE: %ld \n", t->size);
 }
+
+
+printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+printf("Printing FREELIST at ending of Myalloc\n");
+node_t *end = __head;
+while(end!= NULL){
+   print_node(end);
+   print_header(end);
+   end = end->next;
+
+}
+
+
 return ptr;
 }
 
@@ -432,5 +442,5 @@ void myfree(void *ptr)
    //    __head->next = deallocated;
    //    deallocated->next = oldhead;
    /* PROFIT!!! */
-
+   printf("AFTER MY FREE HEAD->NEXT MAGIC: '%081x'\n", __head->next);
 }
