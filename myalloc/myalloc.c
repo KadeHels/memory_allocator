@@ -1,3 +1,5 @@
+// Authors: Laura Krebs and Kade Helseth
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "myalloc.h"
