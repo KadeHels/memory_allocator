@@ -120,7 +120,7 @@ inline void coalesce_freelist(node_t *listhead)
          printf("Head: %p  Eats: %p \n", head,(int*)target);
          head->size += target->size + sizeof(header_t);
          head->next = target->next;
-      } 
+      }
    }
 
       printf("******************************\n");
@@ -177,9 +177,7 @@ void *first_fit(size_t req_size)
                            null */
    header_t *alloc = NULL; /* a pointer to a header you can use for
                               your allocation */
-   char *a;
-
-   printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+    printf("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
    printf("Printing FREELIST at beginning of Myalloc\n");
    node_t *start = listitem;
    while(start!= NULL){
@@ -204,15 +202,15 @@ void *first_fit(size_t req_size)
          if (listitem->size >= sizeToAlloc) {
              if (tempSize > sizeToAlloc) {
                  printf("INSIDE SPLITTING \n");
-                 
+
                  //?? netempaddress messing up??
                  node_t *newFree = ((void*)newtempAddress + sizeToAlloc);
-                 
+
                  //CHANGED potential size conversion error??
                  newFree->size = (long unsigned)(tempSize - sizeToAlloc); //- sizeof(header_t));
                  printf("NEW FREE SIZE: %lu\n", newFree->size);
                  printf("SIZE OF TEMP: %ld -- SIZE TO ALLOC: %ld -- SIZE OF HEAD: %ld \n", tempSize, sizeToAlloc, sizeof(header_t));
-                 
+
                  //??
                  if (prev != NULL) {
                      printf("**************LJK");
@@ -222,14 +220,6 @@ void *first_fit(size_t req_size)
                      __head = (newFree);
                      newFree->next = listitem->next;
                  }
-                 
-//                 __head->size = newFree->size;
-                 //printf("NEWHEADSIZE: %lu\n", __head->size);
-//                 if(__head != NULL){
-//                     printf("YYXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
-//                     //Test here
-//                 }
-//                 __head->next = NULL;
              } else if (tempSize == sizeToAlloc) {
                  // perfect match and no split
                  printf("INSIDE NOT SPLITTING");
@@ -245,28 +235,41 @@ void *first_fit(size_t req_size)
             alloc = newtempAddress;
             alloc->size = req_size;
             alloc->magic = HEAPMAGIC;
-            printf("PRINTING ALLOC HEADER");
+            printf("PRINTING ALLOC HEADER\n");
             print_header(alloc);
-            printf("PRINTING ALLOC");
+            printf("PRINTING ALLOC\n");
             print_node(alloc);
+
+            printf("Setting PTR to ALLOC\n");
             ptr = (void *)alloc + sizeof(header_t);
 
+            //ALLOC is not setting the pointer to the correct header
             //testing
-            printf("PRINTING PTR %p\n", ptr);
-//            header_t* t = (header_t *)ptr - sizeof(header_t));
-//            printf("PTR Magic: %08lx\n", t->magic);
-//             printf("PTR SIZE in FIRST FIT: %lu\n", t->size);
-             print_freelist_from(__head);
-            
-            
-            break;
+            printf("***************************************\n");
+            printf("PRINTING THE RETURNING PTR %p\n", ptr -16);
+            //header_t* t = ((header_t *)(ptr-16) );
+            header_t* t = (header_t *)(ptr - sizeof(header_t));
+            print_header(t);
+            print_node(t);
+            printf("HEADER MAGIC: %08lx HEAPMAGIC: %08lx\n",t->magic, HEAPMAGIC);
+            //t->magic  = HEAPMAGIC;
+            //t->size = sizeof(header_t);
+
+            printf("Printing HEAD right before returning\n");
+            node_t *fart = __head;
+            while(fart!= NULL){
+               print_node(fart);
+               fart = fart->next;
+            }
+            printf("RETURNING PTR!\n\n");
+             return ptr;
          } else {
             perror("Get the next element cause no space");
             prev = listitem;
             listitem = listitem->next;
          }
       }
-
+      
       //splitting
 //      if (tempSize > sizeToAlloc) {
 //         printf("INSIDE SPLITTING \n");

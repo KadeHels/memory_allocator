@@ -43,9 +43,13 @@ int is_header_good(void* ptr, int size) {
 	header_t* t = (header_t *)(ptr - sizeof(header_t));
 	if (t->magic != HEAPMAGIC) {
 		printf("Header Magic number not correct.\n");
-                printf("HEADER MAGIC: %08lx HEAPMAGIC: %08lx \n", t->magic, HEAPMAGIC);
+                printf("HEADER MAGIC: %08lx HEAPMAGIC: %08lx\n",t->magic, HEAPMAGIC);
 		// Magic is not right.
-		return 0;
+                //print_header(t);
+                //print_node(t);
+                printf("[header_t @ %p | buffer @ %p size: %lu magic:%08lx]\n",t,((void *)t + sizeof(header_t)),t->size,t->magic);
+                
+                return 0;
 	}
 	if (t->size < size) {
 		printf("Header says size is too small.\n");
@@ -86,7 +90,7 @@ int is_free_list_good(node_t* head, int* correct, int size) {
 		if (found == 0) {
 			printf("Freelist check: Freelist node contains incorrect size.\n");
 			printf("Freelist check: size is %d\n",cur_size);
-                        
+                        //(ptr[i]
 			return 0;
 		}
 		cur = cur->next;
@@ -114,9 +118,7 @@ int complete_state_check(node_t* head, int* freelist, int freelist_size, void** 
 		printf("]\n");
 		return 0;
 	}
-        else{
-           printf("FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE\n");
-        }
+        
 	for (int i=0; i < ptr_size; i++) {
 		if (sizes[i] == -2) {
 			// Good
@@ -125,7 +127,9 @@ int complete_state_check(node_t* head, int* freelist, int freelist_size, void** 
 		} else if (ptr[i] == NULL) {
 			printf("You program failed to alloc ptr[%d]\n", i);
 		} else if (!is_header_good(ptr[i], sizes[i])) {
-			printf("Found Incorrect Header @ ptr[%d]\n", i);
+			printf("Found Incorrect Header @ptr[%d]\n",i);
+                        node_t* j = (node_t *)ptr[i];
+                        printf("[node @ %p | free region @ %p size:%lu next: %p]\n",j,j+sizeof(j),j->size,j->next);
 			return 0;
 		} else if (!is_data_good(ptr[i], sizes[i])) {
 			printf("Data Corrupted in ptr[%d]\n", i);
