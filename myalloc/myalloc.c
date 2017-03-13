@@ -68,36 +68,59 @@ inline void coalesce_freelist(node_t *listhead)
    printf("Printing neighbors:\n");
    while(start!= NULL){
          print_node(start);
-         print_header(start);
          start = start->next;
    }
 
+
+   //reset the list
+   start = listhead;
+   //write the values into sort_list in any order
+   for(int z = 0; z < list_size; z++){
+      sort_list[z] = start;
+      start = start->next;
+   }
+   
    printf("NEED TO REWORK THE SORT");
    printf("******************************\n");
    printf("Sorting by neighboring regions\n");
       start = listhead;
       
-      int i=0;
-      while(start != NULL && i < list_size){
-         if(start < start->next && start > previous_shortest){
-            shortest = start;
+      for (int i = 0; i < list_size; ++i)
+      {
+         for (int j = i + 1; j < list_size; ++j)
+         {
+            if (sort_list[i] > sort_list[j])
+            {
+               node_t *a =  sort_list[i];
+               sort_list[i] = sort_list[j];
+               sort_list[j] = a;
+            }
          }
-         
-         if(shortest){
-            //perror("Shortest:");
-            //print_node(shortest);
+      }
+
+      /*
+      for(int i = 0; i < list_size; ++i){
+         start = listhead;
+         shortest = start;
+         if(shortest == previous_shortest){
+            shortest = start->next;
+         }
+         while(start->next != NULL ){
+            if(start < shortest && start > previous_shortest){
+               printf("NEW SHORTEST:");
+               print_node(start);
+               printf("Count: %d", i);
+               shortest = start;
+            }
+            start = start->next;
          }
          sort_list[i] = shortest;
          previous_shortest = shortest;
-         ++i;
-         start = start->next;
+         
       }
-      
-      //sort_list[i] = shortest;
-      //previous_shortest = shortest;
-   
-   int j = 0 ;
-
+      */
+      printf("SORT LIST:\n");
+      int j = 0;
    while( j < list_size){
       printf("%p \n", sort_list[j]);
       j++;
@@ -111,16 +134,17 @@ inline void coalesce_freelist(node_t *listhead)
    node_t *prev = target;
    node_t *newHead = NULL;
 
+   //redecloration??
    int k = 0;
       for (node_t *target = __head; target != NULL;) {
-         node_t *neighbor = target; 
+         node_t *neighbor = target;
          //target->size;
-      printf("neighbor: %p && next: %p shortest: %p\n", neighbor, (int*)target->next, sort_list[k]);
+      printf("neighbor: %p && next: %p sorted: %p\n", neighbor, (int*)target->next, sort_list[k]);
       if (neighbor == sort_list[k]) {
          printf("   HIT\n");
          node_t *node_next = target->next->next;
-         neighbor->size += sizeof(header_t) + target->size;
-         neighbor->next = target->next;
+         prev->size += sizeof(header_t) + target->size;
+         prev->next = target->next;
          
          target = node_next;
          ++k;
@@ -131,6 +155,17 @@ inline void coalesce_freelist(node_t *listhead)
       }
    }
 
+      printf("******************************\n");
+
+      printf("Printing neighbors after coalescing:\n");
+      start = __head;
+      while(start!= NULL){
+         print_node(start);
+         //print_header(start);
+         start = start->next;
+
+      }
+      
       printf("******************************\n");
       
    /* traverse the free list, coalescing neighboring regions!
