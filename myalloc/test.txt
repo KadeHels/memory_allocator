@@ -1,0 +1,651 @@
+sizes:
+void *:		8
+long unsigned:	8
+node_t:		16
+header_t:	16
+
+In myalloc:
+*** Heap is NULL: Initializing ***
+heap: 0x1d2b010
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 4080 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b020
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 0 next: (nil)]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 0 next: 0x1d2b438]
+NEW FREE SIZE: 3040
+SIZE OF TEMP: 4080 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+Returning pointer: 0x1d2b020
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+__head is now @ 0x1d2b438
+Allocation of size 1024 succeeded @ 0x1d2b020!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b448
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 0 next: (nil)]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 0 next: 0x1d2b860]
+NEW FREE SIZE: 2000
+SIZE OF TEMP: 3040 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+Returning pointer: 0x1d2b448
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+__head is now @ 0x1d2b860
+Allocation of size 1024 succeeded @ 0x1d2b448!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 512 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 512 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b870
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 512
+PTR AS NODE:
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 0 next: (nil)]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 0 next: 0x1d2ba88]
+NEW FREE SIZE: 1472
+SIZE OF TEMP: 2000 -- SIZE TO ALLOC: 528 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 512 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 512 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: (nil)]
+Returning pointer: 0x1d2b870
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 512 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: (nil)]
+[header_t @ 0x1d2ba88 | buffer @ 0x1d2ba98 size: 1472 magic: 00000000]
+__head is now @ 0x1d2ba88
+Allocation of size 512 succeeded @ 0x1d2b870!
+FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE
+Test 1: Simple Allocation is Good :)
+
+In myalloc:
+*** Heap is NULL: Initializing ***
+heap: 0x1d2b010
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 4080 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b020
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 14757395258967641292 next: 0xcccccccccccccccc]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 14757395258967641292 next: 0x1d2b438]
+NEW FREE SIZE: 3040
+SIZE OF TEMP: 4080 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+Returning pointer: 0x1d2b020
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+__head is now @ 0x1d2b438
+Allocation of size 1024 succeeded @ 0x1d2b020!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b448
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 5642533481369980494 next: 0x4e4e4e4e4e4e4e4e]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 5642533481369980494 next: 0x1d2b860]
+NEW FREE SIZE: 2000
+SIZE OF TEMP: 3040 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+Returning pointer: 0x1d2b448
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+__head is now @ 0x1d2b860
+Allocation of size 1024 succeeded @ 0x1d2b448!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+NO FIT FOR THIS ALLOCATION!THE ALLOCATION IS NULL CAN'T PRINT ITPRINTING HEADPOINTER[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+Returning pointer: (nil)
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+__head is now @ 0x1d2b860
+!!! Allocation of size 3000 failed!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 512 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 512 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b870
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 512
+PTR AS NODE:
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 13961653357748797889 next: 0xc1c1c1c1c1c1c1c1]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 13961653357748797889 next: 0x1d2ba88]
+NEW FREE SIZE: 1472
+SIZE OF TEMP: 2000 -- SIZE TO ALLOC: 528 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 512 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 512 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: (nil)]
+Returning pointer: 0x1d2b870
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 512 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2ba88 | free region @ 0x1d2ba98 size: 1472 next: (nil)]
+[header_t @ 0x1d2ba88 | buffer @ 0x1d2ba98 size: 1472 magic: 00000000]
+__head is now @ 0x1d2ba88
+Allocation of size 512 succeeded @ 0x1d2b870!
+FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE
+Test 2: Advanced Allocation is Good :)
+
+In myalloc:
+*** Heap is NULL: Initializing ***
+heap: 0x1d2b010
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 4080 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b020
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 3399988123389603631 next: 0x2f2f2f2f2f2f2f2f]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 3399988123389603631 next: 0x1d2b438]
+NEW FREE SIZE: 3040
+SIZE OF TEMP: 4080 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+Returning pointer: 0x1d2b020
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+__head is now @ 0x1d2b438
+Allocation of size 1024 succeeded @ 0x1d2b020!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b448
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 4485090715960753726 next: 0x3e3e3e3e3e3e3e3e]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 4485090715960753726 next: 0x1d2b860]
+NEW FREE SIZE: 2000
+SIZE OF TEMP: 3040 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+Returning pointer: 0x1d2b448
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+__head is now @ 0x1d2b860
+Allocation of size 1024 succeeded @ 0x1d2b448!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b870
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 9838263505978427528 next: 0x8888888888888888]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 9838263505978427528 next: 0x1d2bc88]
+NEW FREE SIZE: 960
+SIZE OF TEMP: 2000 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: (nil)]
+Returning pointer: 0x1d2b870
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: (nil)]
+[header_t @ 0x1d2bc88 | buffer @ 0x1d2bc98 size: 960 magic: 00000000]
+__head is now @ 0x1d2bc88
+Allocation of size 1024 succeeded @ 0x1d2b870!
+
+In myfree with pointer 0x1d2b448
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+AFTER MY FREE HEAD->NEXT MAGIC: '000000000000000000000000000000000000000000000000000000000000000000000000001d2bc88'
+FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE
+Test 3: Simple Free is Good :)
+
+In myalloc:
+*** Heap is NULL: Initializing ***
+heap: 0x1d2b010
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 4080 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b020
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 8608480567731124087 next: 0x7777777777777777]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 8608480567731124087 next: 0x1d2b438]
+NEW FREE SIZE: 3040
+SIZE OF TEMP: 4080 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+Returning pointer: 0x1d2b020
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+__head is now @ 0x1d2b438
+Allocation of size 1024 succeeded @ 0x1d2b020!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 3040 next: (nil)]
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 3040 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b448
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 5859553999884210513 next: 0x5151515151515151]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b448 | free region @ 0x1d2b458 size: 5859553999884210513 next: 0x1d2b860]
+NEW FREE SIZE: 2000
+SIZE OF TEMP: 3040 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b438 | free region @ 0x1d2b448 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+Returning pointer: 0x1d2b448
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+__head is now @ 0x1d2b860
+Allocation of size 1024 succeeded @ 0x1d2b448!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 2000 next: (nil)]
+[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 2000 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 1024 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b870
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1024
+PTR AS NODE:
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 8319119876378817395 next: 0x7373737373737373]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 8319119876378817395 next: 0x1d2bc88]
+NEW FREE SIZE: 960
+SIZE OF TEMP: 2000 -- SIZE TO ALLOC: 1040 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b860 | free region @ 0x1d2b870 size: 1024 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b860 | buffer @ 0x1d2b870 size: 1024 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: (nil)]
+Returning pointer: 0x1d2b870
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1024 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2bc88 | free region @ 0x1d2bc98 size: 960 next: (nil)]
+[header_t @ 0x1d2bc88 | buffer @ 0x1d2bc98 size: 960 magic: 00000000]
+__head is now @ 0x1d2bc88
+Allocation of size 1024 succeeded @ 0x1d2b870!
+
+In myfree with pointer 0x1d2b448
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 10c0beefbad1dea5]
+AFTER MY FREE HEAD->NEXT MAGIC: '000000000000000000000000000000000000000000000000000000000000000000000000001d2bc88'
+
+In myfree with pointer 0x1d2b448
+[header_t @ 0x1d2b438 | buffer @ 0x1d2b448 size: 1024 magic: 01d2bc88]
+Header is missing its magic number!!
+It should be '10c0beefbad1dea5'
+But it is '01d2bc88'
+The heap is corrupt!
+FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE
+Test 4: If you saw the message '...The heap is corrupt!' above then,
+Test 4: Double Free is Good :)
+
+In myalloc:
+*** Heap is NULL: Initializing ***
+heap: 0x1d2b010
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 4080 next: (nil)]
+[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 4080 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 512 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 512 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b020
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 512
+PTR AS NODE:
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 1808504320951916825 next: 0x1919191919191919]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b020 | free region @ 0x1d2b030 size: 1808504320951916825 next: 0x1d2b238]
+NEW FREE SIZE: 3552
+SIZE OF TEMP: 4080 -- SIZE TO ALLOC: 528 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b010 | free region @ 0x1d2b020 size: 512 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 3552 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 3552 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b010 | buffer @ 0x1d2b020 size: 512 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 3552 next: (nil)]
+Returning pointer: 0x1d2b020
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 512 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 3552 next: (nil)]
+[header_t @ 0x1d2b238 | buffer @ 0x1d2b248 size: 3552 magic: 00000000]
+__head is now @ 0x1d2b238
+Allocation of size 512 succeeded @ 0x1d2b020!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 3552 next: (nil)]
+[header_t @ 0x1d2b238 | buffer @ 0x1d2b248 size: 3552 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b238 | buffer @ 0x1d2b248 size: 512 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 512 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b248
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 512
+PTR AS NODE:
+[node @ 0x1d2b248 | free region @ 0x1d2b258 size: 1808504320951916825 next: 0x1919191919191919]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b248 | free region @ 0x1d2b258 size: 1808504320951916825 next: 0x1d2b460]
+NEW FREE SIZE: 3024
+SIZE OF TEMP: 3552 -- SIZE TO ALLOC: 528 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 512 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 3024 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 3024 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b238 | buffer @ 0x1d2b248 size: 512 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 3024 next: (nil)]
+Returning pointer: 0x1d2b248
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 512 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 3024 next: (nil)]
+[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 3024 magic: 00000000]
+__head is now @ 0x1d2b460
+Allocation of size 512 succeeded @ 0x1d2b248!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 3024 next: (nil)]
+[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 3024 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 512 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 512 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b470
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 512
+PTR AS NODE:
+[node @ 0x1d2b470 | free region @ 0x1d2b480 size: 6438275382588823897 next: 0x5959595959595959]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b470 | free region @ 0x1d2b480 size: 6438275382588823897 next: 0x1d2b688]
+NEW FREE SIZE: 2496
+SIZE OF TEMP: 3024 -- SIZE TO ALLOC: 528 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 512 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b688 | free region @ 0x1d2b698 size: 2496 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b688 | free region @ 0x1d2b698 size: 2496 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 512 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b688 | free region @ 0x1d2b698 size: 2496 next: (nil)]
+Returning pointer: 0x1d2b470
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 512 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b688 | free region @ 0x1d2b698 size: 2496 next: (nil)]
+[header_t @ 0x1d2b688 | buffer @ 0x1d2b698 size: 2496 magic: 00000000]
+__head is now @ 0x1d2b688
+Allocation of size 512 succeeded @ 0x1d2b470!
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b688 | free region @ 0x1d2b698 size: 2496 next: (nil)]
+[header_t @ 0x1d2b688 | buffer @ 0x1d2b698 size: 2496 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b688 | buffer @ 0x1d2b698 size: 2048 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b688 | free region @ 0x1d2b698 size: 2048 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b698
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 2048
+PTR AS NODE:
+[node @ 0x1d2b698 | free region @ 0x1d2b6a8 size: 6438275382588823897 next: 0x5959595959595959]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b698 | free region @ 0x1d2b6a8 size: 6438275382588823897 next: 0x1d2beb0]
+NEW FREE SIZE: 432
+SIZE OF TEMP: 2496 -- SIZE TO ALLOC: 2064 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b688 | free region @ 0x1d2b698 size: 2048 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b688 | buffer @ 0x1d2b698 size: 2048 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: (nil)]
+Returning pointer: 0x1d2b698
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 2048 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: (nil)]
+[header_t @ 0x1d2beb0 | buffer @ 0x1d2bec0 size: 432 magic: 00000000]
+__head is now @ 0x1d2beb0
+Allocation of size 2048 succeeded @ 0x1d2b698!
+
+In myfree with pointer 0x1d2b248
+[header_t @ 0x1d2b238 | buffer @ 0x1d2b248 size: 512 magic: 10c0beefbad1dea5]
+AFTER MY FREE HEAD->NEXT MAGIC: '000000000000000000000000000000000000000000000000000000000000000000000000001d2beb0'
+
+In myfree with pointer 0x1d2b470
+[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 512 magic: 10c0beefbad1dea5]
+AFTER MY FREE HEAD->NEXT MAGIC: '000000000000000000000000000000000000000000000000000000000000000000000000001d2b238'
+FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE
+Test 5.1: Coalesce is Good so far :)
+In coalesce freelist...
+Printing neighbors:
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 512 next: 0x1d2b238]
+[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 512 magic: 01d2b238]
+[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 512 next: 0x1d2beb0]
+[header_t @ 0x1d2b238 | buffer @ 0x1d2b248 size: 512 magic: 01d2beb0]
+[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: (nil)]
+[header_t @ 0x1d2beb0 | buffer @ 0x1d2bec0 size: 432 magic: 00000000]
+******************************
+Sorting by neighboring regions
+SORTED LIST:
+0x1d2beb0 
+0x1d2b460 
+0x1d2b238 
+******************************
+Coalescing
+[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: (nil)]
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 512 next: 0x1d2b238]
+Head: 0x1d2b460  Eats: 0x1d2b238 
+[node @ 0x1d2b238 | free region @ 0x1d2b248 size: 512 next: 0x1d2beb0]
+Head: 0x1d2b238  Eats: 0x401698 
+******************************
+Printing neighbors after coalescing:
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 1040 next: 0x1d2beb0]
+[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 1040 magic: 01d2beb0]
+[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: (nil)]
+[header_t @ 0x1d2beb0 | buffer @ 0x1d2bec0 size: 432 magic: 00000000]
+******************************
+FREE LIST SIZE DIDNT FAIL, SO THERE IS THAT WHICH IS NICE
+Test 5.2: Coalesce is Good so far :)
+
+In myalloc:
+Going to do allocation.
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at beginning of Myalloc
+[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 1040 next: 0x1d2beb0]
+[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 1040 magic: 01d2beb0]
+[node @ 0x1d2beb0 | free region @ 0x1d2bec0 size: 432 next: (nil)]
+[header_t @ 0x1d2beb0 | buffer @ 0x1d2bec0 size: 432 magic: 00000000]
+PRINTING ALLOC HEADER[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 1000 magic: 10c0beefbad1dea5]
+PRINTING ALLOC[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 1000 next: 0x10c0beefbad1dea5]
+PRINTING PTR 0x1d2b470
+PTR Magic: 10c0beefbad1dea5
+PTR SIZE in FIRST FIT: 1000
+PTR AS NODE:
+[node @ 0x1d2b470 | free region @ 0x1d2b480 size: 8246779703540740722 next: 0x7272727272727272]
+PTR AS NODE:
+INSIDE SPLITTING 
+[node @ 0x1d2b470 | free region @ 0x1d2b480 size: 8246779703540740722 next: 0x1d2b870]
+NEW FREE SIZE: 24
+SIZE OF TEMP: 1040 -- SIZE TO ALLOC: 1016 -- SIZE OF HEAD: 16 
+YXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX[node @ 0x1d2b460 | free region @ 0x1d2b470 size: 1000 next: 0x10c0beefbad1dea5]
+
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 24 next: 0x10c0beefbad1dea5]
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 24 next: 0x10c0beefbad1dea5]
+PRINTING HEADER[header_t @ 0x1d2b460 | buffer @ 0x1d2b470 size: 1000 magic: 10c0beefbad1dea5]
+PRINTING HEADPOINTER[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 24 next: (nil)]
+Returning pointer: 0x1d2b470
+PRINTING RETURNED POINTER MAGIC: 10c0beefbad1dea5 
+PRINTING RETURNED POINTER SIZE: 1000 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXPrinting FREELIST at ending of Myalloc
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 24 next: (nil)]
+[header_t @ 0x1d2b870 | buffer @ 0x1d2b880 size: 24 magic: 00000000]
+__head is now @ 0x1d2b870
+Allocation of size 1000 succeeded @ 0x1d2b470!
+Freelist check: Freelist did not contain enough nodes.
+Free list is not correct!
+Freelist trace:
+Printing freelist from 0x1d2b870
+[node @ 0x1d2b870 | free region @ 0x1d2b880 size: 24 next: (nil)]
+However it should have the following sizes
+[432, 24]
+Test 5.3: Failed, Coalesce is not working :(
