@@ -61,8 +61,7 @@ inline void coalesce_freelist(node_t *listhead)
    }
    
    node_t* sort_list[list_size];
-   node_t* shortest;
-   node_t* previous_shortest;
+   
 
    start = listhead;
    printf("Printing neighbors:\n");
@@ -89,7 +88,7 @@ inline void coalesce_freelist(node_t *listhead)
       {
          for (int j = i + 1; j < list_size; ++j)
          {
-            if (sort_list[i] > sort_list[j])
+            if (sort_list[i]->next > sort_list[j]->next)
             {
                node_t *a =  sort_list[i];
                sort_list[i] = sort_list[j];
@@ -107,54 +106,32 @@ inline void coalesce_freelist(node_t *listhead)
    
    printf("Coalescing\n");
    
-   node_t *target = listhead;
-   node_t *node = target->next;
-   node_t *prev = target;
-   node_t *newHead = NULL;
-
+   node_t *head = listhead;
+   node_t *target = target->next;
+   //node_t *prev = target;
+   //node_t *newHead = NULL;
    
-   int k = 0;
-      for (node_t *target = listhead; target != NULL;) {
-         node_t *neighbor = target;
-         //target->size;
-      printf("neighbor: %p && next: %p sorted: %p\n", neighbor, (int*)target->next, sort_list[k]);
-      if (neighbor == sort_list[k]) {
-         printf("   HIT\n");
-         node_t *node_next = target->next->next;
-         prev->size += sizeof(header_t) + target->size;
-         prev->next = target->next;
-         
-         target = node_next;
-         ++k;
-//And now retry it since target can be coalesced with it's  neighbor
-      continue;
-      } else {
-         target = target->next;
-      }
+   for(int i = 0; i < list_size; ++i){
+      print_node(sort_list[i]);
+      //can be coalesced
+      if(sort_list[i+1]->next!=NULL && sort_list[i]->next!=NULL){//eat the next neighbor
+         head = sort_list[i];
+         target = sort_list[i+1];
+         printf("Head: %p  Eats: %p \n", head,(int*)target);
+         head->size += target->size + sizeof(header_t);
+         head->next = target->next;
+      } 
    }
 
       printf("******************************\n");
 
       printf("Printing neighbors after coalescing:\n");
-      start = __head;
-      while(start!= NULL){
+      while(start!= NULL ){
          print_node(start);
-         //print_header(start);
+         print_header(start);
          start = start->next;
-
       }
-      
       printf("******************************\n");
-      
-   /* traverse the free list, coalescing neighboring regions!
-    * some hints:
-    * --> it might be easier if you sort the free list first!
-    * --> it might require multiple passes over the free list!
-    * --> it might be easier if you call some helper functions from
-   here
-   * --> see print_free_list_from for basic code for traversing a
-   *     linked list!
-   */
 }
 
 void destroy_heap()
